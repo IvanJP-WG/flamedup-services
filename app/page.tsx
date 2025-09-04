@@ -57,7 +57,7 @@ export default function HomePage() {
         ))}
       </section>
       <ProcessSteps />
-      {/* Next: ProcessSteps, Testimonials, LeadForm, FAQ */}
+      {/* Testimonials, LeadForm, FAQ */}
     </>
   );
 }
