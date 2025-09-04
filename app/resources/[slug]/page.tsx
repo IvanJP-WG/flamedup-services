@@ -1,19 +1,21 @@
-import { notFound } from "next/navigation";
+import { MDXRemote } from "next-mdx-remote";
+import fs from "fs";
+import path from "path";
 
-interface Props {
+interface PageProps {
   params: { slug: string };
 }
 
-export default function ResourceArticle({ params }: Props) {
+export default async function ResourcePage({ params }: PageProps) {
   const { slug } = params;
 
-  // Placeholder — later we’ll load from MDX
-  if (!slug) return notFound();
+  // Dev-safe: check if file exists
+  const filePath = path.join(process.cwd(), "content/resources", `${slug}.mdx`);
+  if (!fs.existsSync(filePath)) {
+    return <p>Resource not found</p>;
+  }
 
-  return (
-    <main className="p-8">
-      <h1 className="text-2xl font-bold capitalize">{slug.replace("-", " ")}</h1>
-      <p className="mt-2 text-gray-600">This is a resource article.</p>
-    </main>
-  );
+  const source = fs.readFileSync(filePath, "utf8");
+  // Normally process MDX with next-mdx-remote
+  return <div>{source}</div>;
 }
