@@ -1,8 +1,6 @@
-import Hero from "@/components/Hero";
 import PackageCard from "@/components/PackageCard";
-import ProcessSteps from "@/components/ProcessSteps";
 
-export default function HomePage() {
+export default function PricingPage() {
   const plans: {
   plan: string;
   price: string;
@@ -19,7 +17,7 @@ export default function HomePage() {
       "Email support 14 days",
       "Workflow kicks off immediately",
     ],
-    priceId: "price_creditlift_starter", // <-- must match exact literal
+    priceId: "price_creditlift_starter", // exact literal
   },
   {
     plan: "Standard Repair",
@@ -31,7 +29,7 @@ export default function HomePage() {
       "Progress tracker link",
       "Email support 30 days",
     ],
-    priceId: "price_creditlift_standard", // <-- exact literal
+    priceId: "price_creditlift_standard", // exact literal
   },
   {
     plan: "Complete Repair",
@@ -43,21 +41,19 @@ export default function HomePage() {
       "Review call (20 minutes) via Calendly",
       "Email support 60 days",
     ],
-    priceId: "price_creditlift_complete", // <-- exact literal
+    priceId: "price_creditlift_complete", // exact literal
   },
 ];
 
+
   return (
-    <>
-      <Hero />
-      {/* Packages Section */}
-      <section className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+    <main className="pt-24 max-w-6xl mx-auto px-6 py-16">
+      <h1 className="text-4xl font-bold mb-12 text-center">Our Plans</h1>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {plans.map((p) => (
           <PackageCard key={p.plan} {...p} />
         ))}
-      </section>
-      <ProcessSteps />
-      {/* Next: ProcessSteps, Testimonials, LeadForm, FAQ */}
-    </>
+      </div>
+    </main>
   );
 }
