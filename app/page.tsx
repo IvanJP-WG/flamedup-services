@@ -1,6 +1,9 @@
 import Hero from "@/components/Hero";
 import PackageCard from "@/components/PackageCard";
 import ProcessSteps from "@/components/ProcessSteps";
+import Testimonials from "@/components/Testimonials";
+import FAQ from "@/components/FAQ";
+import LeadForm from "@/components/LeadForm";
 
 export default function HomePage() {
   const plans: {
@@ -57,7 +60,9 @@ export default function HomePage() {
         ))}
       </section>
       <ProcessSteps />
-      {/* Testimonials, LeadForm, FAQ */}
+      <Testimonials />
+      <FAQ />
+      <LeadForm />
     </>
   );
 }
