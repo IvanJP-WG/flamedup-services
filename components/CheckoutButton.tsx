@@ -1,48 +1,43 @@
 "use client";
 
-import React from "react";
+import { useState } from "react";
 
-interface CheckoutButtonProps {
+type CheckoutButtonProps = {
   priceId: string;
-  plan: string;
-}
+  label: string;
+};
 
-export default function CheckoutButton({ priceId, plan }: CheckoutButtonProps) {
-  const handleClick = async () => {
-    if (process.env.NODE_ENV === "development") {
-      console.log(`[DEV] Checkout triggered for plan: ${plan}, priceId: ${priceId}`);
-      alert(`DEV MODE: Checkout for "${plan}" would happen here.`);
-      return;
-    }
+export default function CheckoutButton({ priceId, label }: CheckoutButtonProps) {
+  const [loading, setLoading] = useState(false);
 
-    // TODO: Replace with real Stripe checkout call in production
+  const handleCheckout = async () => {
+    setLoading(true);
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ priceId, metadata: { plan, source: "site" } }),
+        body: JSON.stringify({ priceId }),
       });
 
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        console.error("Stripe checkout error", data);
-      }
+      if (!res.ok) throw new Error("Checkout session failed");
+
+      const { url } = await res.json();
+      window.location.href = url;
     } catch (err) {
-      console.error("Checkout failed", err);
+      console.error(err);
+      alert("❌ Something went wrong starting checkout.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <button
-      onClick={handleClick}
-      className="w-full py-3 mt-4 rounded-2xl font-semibold text-white shadow-lg transition transform hover:-translate-y-0.5"
-      style={{
-        background: "linear-gradient(90deg, #E63946, #FF6B81)",
-      }}
+      onClick={handleCheckout}
+      disabled={loading}
+      className="w-full bg-[#FF7A85] text-white py-2 rounded-lg font-semibold hover:bg-[#E85D70] transition disabled:opacity-50"
     >
-      Buy Now
+      {loading ? "Processing..." : label}
     </button>
   );
 }

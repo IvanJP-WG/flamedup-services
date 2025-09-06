@@ -21,12 +21,8 @@ export default function PackageCard({ plan, price, features, priceId }: PackageC
             </li>
           ))}
         </ul>
+        <CheckoutButton priceId={priceId} label="Buy Now" />
       </div>
-
-      <CheckoutButton
-        priceId={priceId}
-        plan={plan}
-      />
     </div>
   );
 }
